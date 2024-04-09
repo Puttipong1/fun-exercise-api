@@ -15,6 +15,68 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/users/{id}/wallets": {
+            "get": {
+                "description": "Get all wallets by user id",
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "Get all wallets by user id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/wallet.Err"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Get all wallets by user id",
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "Get all wallets by user id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/wallet.Err"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/wallets": {
             "get": {
                 "description": "Get all wallets",
@@ -28,6 +90,68 @@ const docTemplate = `{
                     "wallet"
                 ],
                 "summary": "Get all wallets",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "wallet type (Savings, Credit Card, Crypto Wallet)",
+                        "name": "wallet_type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wallet.Wallet"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/wallet.Err"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update Wallet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "Update Wallet",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wallet.UpdateWallet"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/wallet.Err"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Wallet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wallet"
+                ],
+                "summary": "Create Wallet",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -51,6 +175,27 @@ const docTemplate = `{
             "properties": {
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "wallet.UpdateWallet": {
+            "type": "object",
+            "properties": {
+                "balance": {
+                    "type": "number",
+                    "example": 100
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "wallet_name": {
+                    "type": "string",
+                    "example": "John's Wallet"
+                },
+                "wallet_type": {
+                    "type": "string",
+                    "example": "Create Card"
                 }
             }
         },
@@ -94,7 +239,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:1323",
-	BasePath:         "",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Wallet API",
 	Description:      "Sophisticated Wallet API",

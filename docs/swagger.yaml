@@ -1,7 +1,23 @@
+basePath: /
 definitions:
   wallet.Err:
     properties:
       message:
+        type: string
+    type: object
+  wallet.UpdateWallet:
+    properties:
+      balance:
+        example: 100
+        type: number
+      id:
+        example: 1
+        type: integer
+      wallet_name:
+        example: John's Wallet
+        type: string
+      wallet_type:
+        example: Create Card
         type: string
     type: object
   wallet.Wallet:
@@ -35,11 +51,57 @@ info:
   title: Wallet API
   version: "1.0"
 paths:
+  /api/v1/users/{id}/wallets:
+    delete:
+      description: Get all wallets by user id
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/wallet.Err'
+      summary: Get all wallets by user id
+      tags:
+      - wallet
+    get:
+      description: Get all wallets by user id
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/wallet.Err'
+      summary: Get all wallets by user id
+      tags:
+      - wallet
   /api/v1/wallets:
     get:
       consumes:
       - application/json
       description: Get all wallets
+      parameters:
+      - description: wallet type (Savings, Credit Card, Crypto Wallet)
+        in: query
+        name: wallet_type
+        type: string
       produces:
       - application/json
       responses:
@@ -52,6 +114,42 @@ paths:
           schema:
             $ref: '#/definitions/wallet.Err'
       summary: Get all wallets
+      tags:
+      - wallet
+    post:
+      consumes:
+      - application/json
+      description: Create Wallet
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wallet.Wallet'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/wallet.Err'
+      summary: Create Wallet
+      tags:
+      - wallet
+    put:
+      consumes:
+      - application/json
+      description: Update Wallet
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wallet.UpdateWallet'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/wallet.Err'
+      summary: Update Wallet
       tags:
       - wallet
 swagger: "2.0"
