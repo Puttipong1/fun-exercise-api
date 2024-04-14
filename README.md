@@ -1,5 +1,6 @@
 # Fun Exercise: API Design and DevOps
 
+
 # Prerequisites
 
 - [Go](https://go.dev/doc/install) - 1.21.8 or higher
